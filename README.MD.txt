@@ -1,22 +1,18 @@
 # Quiz Website
 
-This is a subject-based quiz website created as part of a technical skill development task.
+This project is a subject based quiz website.
 
-## Features
-- Subject selection (DBMS, Aptitude, HTML)
+Features (Planned):
+- Subject selection
 - Multiple choice questions
-- 1 minute timer for each question
+- 60 second timer
 - Score calculation
 - Reward system
 
-## Technologies Used
-- HTML
-- CSS
-- JavaScript
+Technologies Used:
+HTML
+CSS
+JavaScript
 
-## How to Run
-1. Download the project
-2. Open index.html in a browser
-
-## Author
+Author:
 Tejas B C
