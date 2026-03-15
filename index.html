@@ -9,18 +9,36 @@
 
 <h1>Quiz Website</h1>
 
-<h2>Select Subject</h2>
+<!-- Subject Selection Page -->
+<div id="subjectPage">
 
-<button>DBMS</button>
-<button>Aptitude</button>
-<button>HTML</button>
-<button>CSS</button>
-<button>JavaScript</button>
-<button>Python</button>
-<button>Java</button>
-<button>C Programming</button>
-<button>Operating System</button>
-<button>Computer Networks</button>
+<h2>Select a Subject</h2>
+
+<button onclick="startQuiz('dbms')">DBMS</button>
+<button onclick="startQuiz('aptitude')">Aptitude</button>
+<button onclick="startQuiz('html')">HTML</button>
+<button onclick="startQuiz('css')">CSS</button>
+<button onclick="startQuiz('javascript')">JavaScript</button>
+<button onclick="startQuiz('python')">Python</button>
+<button onclick="startQuiz('java')">Java</button>
+<button onclick="startQuiz('c')">C Programming</button>
+<button onclick="startQuiz('os')">Operating System</button>
+<button onclick="startQuiz('network')">Computer Networks</button>
+
+</div>
+
+<!-- Quiz Page -->
+<div id="quizPage" style="display:none">
+
+<h2 id="question">Question will appear here</h2>
+
+<div id="answers"></div>
+
+<button onclick="nextQuestion()">Next</button>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
