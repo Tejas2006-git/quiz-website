@@ -2,8 +2,8 @@
 <html>
 
 <head>
-    <title>Quiz Website</title>
-    <link rel="stylesheet" href="style.css">
+<title>Quiz Website</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -15,16 +15,16 @@
 
 <h2>Select a Subject</h2>
 
-<button onclick="startQuiz('DBMS')">DBMS</button><br><br>
-<button onclick="startQuiz('Aptitude')">Aptitude</button><br><br>
-<button onclick="startQuiz('HTML')">HTML</button><br><br>
-<button onclick="startQuiz('CSS')">CSS</button><br><br>
-<button onclick="startQuiz('JavaScript')">JavaScript</button><br><br>
-<button onclick="startQuiz('Python')">Python</button><br><br>
-<button onclick="startQuiz('Java')">Java</button><br><br>
-<button onclick="startQuiz('C')">C Programming</button><br><br>
-<button onclick="startQuiz('Operating System')">Operating System</button><br><br>
-<button onclick="startQuiz('Computer Networks')">Computer Networks</button>
+<button onclick="startQuiz()">DBMS</button><br><br>
+<button onclick="startQuiz()">Aptitude</button><br><br>
+<button onclick="startQuiz()">HTML</button><br><br>
+<button onclick="startQuiz()">CSS</button><br><br>
+<button onclick="startQuiz()">JavaScript</button><br><br>
+<button onclick="startQuiz()">Python</button><br><br>
+<button onclick="startQuiz()">Java</button><br><br>
+<button onclick="startQuiz()">C Programming</button><br><br>
+<button onclick="startQuiz()">Operating System</button><br><br>
+<button onclick="startQuiz()">Computer Networks</button>
 
 </div>
 
@@ -36,20 +36,25 @@
 
 <h2 id="question">Question will appear here</h2>
 
-<div id="answers">
-
-<button class="option" onclick="checkAnswer(0)">Option 1</button><br><br>
-<button class="option" onclick="checkAnswer(1)">Option 2</button><br><br>
-<button class="option" onclick="checkAnswer(2)">Option 3</button><br><br>
-<button class="option" onclick="checkAnswer(3)">Option 4</button>
-
-</div>
+<div id="answers"></div>
 
 <br>
 
-<button id="nextBtn" onclick="nextQuestion()">Next Question</button>
+<button onclick="nextQuestion()">Next Question</button>
 
 <h3 id="score"></h3>
+
+</div>
+
+
+<!-- RESULT PAGE (DAY 4 ADDITION) -->
+<div id="resultPage" style="display:none">
+
+<h2>Quiz Completed</h2>
+
+<h3 id="finalScore"></h3>
+
+<button onclick="restartQuiz()">Restart Quiz</button>
 
 </div>
 

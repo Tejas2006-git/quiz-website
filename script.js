@@ -98,3 +98,34 @@ document.getElementById("quizPage").innerHTML =
 }
 
 }
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion < questions.length){
+
+showQuestion();
+
+}else{
+
+document.getElementById("quizPage").style.display="none";
+document.getElementById("resultPage").style.display="block";
+
+document.getElementById("finalScore").innerText =
+"Your Score: " + score + " / " + questions.length;
+
+}
+
+}
+
+function restartQuiz(){
+
+currentQuestion = 0;
+score = 0;
+
+document.getElementById("resultPage").style.display="none";
+document.getElementById("quizPage").style.display="block";
+
+showQuestion();
+
+}
