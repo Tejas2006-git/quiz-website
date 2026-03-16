@@ -9,7 +9,6 @@ options: [
 ],
 answer: 0
 },
-
 {
 question: "Which language is used for styling web pages?",
 options: [
@@ -20,7 +19,6 @@ options: [
 ],
 answer: 1
 },
-
 {
 question: "Which language is used for web scripting?",
 options: [
@@ -35,11 +33,14 @@ answer: 1
 
 let currentQuestion = 0;
 let score = 0;
+let selectedSubject = "";
 
 function startQuiz(subject){
 
-document.getElementById("subjectPage").style.display="none";
-document.getElementById("quizPage").style.display="block";
+selectedSubject = subject;
+
+document.getElementById("subjectPage").style.display = "none";
+document.getElementById("quizPage").style.display = "block";
 
 document.getElementById("selectedSubject").innerText = "Subject: " + subject;
 
@@ -55,7 +56,7 @@ document.getElementById("question").innerText = q.question;
 
 let answersHTML = "";
 
-q.options.forEach(function(option,index){
+q.options.forEach((option,index)=>{
 
 answersHTML += `<button onclick="checkAnswer(${index})">${option}</button><br><br>`;
 
@@ -92,22 +93,6 @@ showQuestion();
 
 }else{
 
-document.getElementById("quizPage").innerHTML =
-"<h2>Quiz Completed</h2><h3>Your Score: "+score+"</h3>";
-
-}
-
-}
-function nextQuestion(){
-
-currentQuestion++;
-
-if(currentQuestion < questions.length){
-
-showQuestion();
-
-}else{
-
 document.getElementById("quizPage").style.display="none";
 document.getElementById("resultPage").style.display="block";
 
@@ -124,8 +109,6 @@ currentQuestion = 0;
 score = 0;
 
 document.getElementById("resultPage").style.display="none";
-document.getElementById("quizPage").style.display="block";
-
-showQuestion();
+document.getElementById("subjectPage").style.display="block";
 
 }
