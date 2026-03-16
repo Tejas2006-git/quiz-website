@@ -1,12 +1,49 @@
 body{
 font-family: Arial;
+background-color:#f4f4f4;
 text-align:center;
-background:#f4f4f4;
+margin:0;
+padding:0;
+}
+
+h1{
+background-color:#007bff;
+color:white;
+padding:20px;
+}
+
+h2{
+color:#333;
 }
 
 button{
-padding:10px;
-margin:10px;
+background-color:#007bff;
+color:white;
+border:none;
+padding:12px 20px;
 font-size:16px;
+border-radius:5px;
 cursor:pointer;
+width:200px;
+}
+
+button:hover{
+background-color:#0056b3;
+}
+
+#subjectPage{
+margin-top:40px;
+}
+
+#quizPage{
+margin-top:40px;
+}
+
+#resultPage{
+margin-top:40px;
+}
+
+#answers button{
+margin:10px;
+width:250px;
 }
