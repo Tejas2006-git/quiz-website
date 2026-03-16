@@ -1,40 +1,55 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Quiz Website</title>
-<link rel="stylesheet" href="style.css">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <h1>Quiz Website</h1>
 
-<!-- Subject Selection Page -->
+<!-- SUBJECT SELECTION PAGE -->
 <div id="subjectPage">
 
 <h2>Select a Subject</h2>
 
-<button onclick="startQuiz('dbms')">DBMS</button>
-<button onclick="startQuiz('aptitude')">Aptitude</button>
-<button onclick="startQuiz('html')">HTML</button>
-<button onclick="startQuiz('css')">CSS</button>
-<button onclick="startQuiz('javascript')">JavaScript</button>
-<button onclick="startQuiz('python')">Python</button>
-<button onclick="startQuiz('java')">Java</button>
-<button onclick="startQuiz('c')">C Programming</button>
-<button onclick="startQuiz('os')">Operating System</button>
-<button onclick="startQuiz('network')">Computer Networks</button>
+<button onclick="startQuiz('DBMS')">DBMS</button><br><br>
+<button onclick="startQuiz('Aptitude')">Aptitude</button><br><br>
+<button onclick="startQuiz('HTML')">HTML</button><br><br>
+<button onclick="startQuiz('CSS')">CSS</button><br><br>
+<button onclick="startQuiz('JavaScript')">JavaScript</button><br><br>
+<button onclick="startQuiz('Python')">Python</button><br><br>
+<button onclick="startQuiz('Java')">Java</button><br><br>
+<button onclick="startQuiz('C')">C Programming</button><br><br>
+<button onclick="startQuiz('Operating System')">Operating System</button><br><br>
+<button onclick="startQuiz('Computer Networks')">Computer Networks</button>
 
 </div>
 
-<!-- Quiz Page -->
+
+<!-- QUIZ PAGE -->
 <div id="quizPage" style="display:none">
+
+<h2 id="selectedSubject"></h2>
 
 <h2 id="question">Question will appear here</h2>
 
-<div id="answers"></div>
+<div id="answers">
 
-<button onclick="nextQuestion()">Next</button>
+<button class="option" onclick="checkAnswer(0)">Option 1</button><br><br>
+<button class="option" onclick="checkAnswer(1)">Option 2</button><br><br>
+<button class="option" onclick="checkAnswer(2)">Option 3</button><br><br>
+<button class="option" onclick="checkAnswer(3)">Option 4</button>
+
+</div>
+
+<br>
+
+<button id="nextBtn" onclick="nextQuestion()">Next Question</button>
+
+<h3 id="score"></h3>
 
 </div>
 
