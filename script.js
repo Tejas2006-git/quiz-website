@@ -143,7 +143,7 @@ C: [
 
 };
 
-// ================= SHUFFLE FUNCTION =================
+// ================= SHUFFLE =================
 function shuffleOptions(q){
     let arr = q.options.map((opt, i)=>({
         text: opt,
@@ -169,19 +169,31 @@ document.getElementById("homeBtn").style.display="none";
 }
 
 function beginQuiz(){
-currentQuestion=0; score=0;
+currentQuestion=0; 
+score=0;
+
+// Reset shuffle
+quizData[currentSubject].forEach(q => delete q.shuffled);
+
 document.getElementById("startBtn").style.display="none";
 document.getElementById("score").innerText="Score: 0";
-showQuestion(); startTimer();
+
+showQuestion(); 
+startTimer();
 }
 
 function showQuestion(){
 let q = quizData[currentSubject][currentQuestion];
 
-// 🔥 RANDOM EVERY TIME
-shuffleOptions(q);
+if(!q.shuffled){
+    shuffleOptions(q);
+    q.shuffled = true;
+}
 
 document.getElementById("question").innerText=q.question;
+
+document.getElementById("progress").innerText =
+`Question ${currentQuestion+1} / ${quizData[currentSubject].length}`;
 
 let html="";
 q.options.forEach((opt,i)=>{
@@ -210,24 +222,39 @@ setTimeout(nextQuestion,1000);
 function nextQuestion(){
 currentQuestion++;
 if(currentQuestion<quizData[currentSubject].length){
-showQuestion(); resetTimer();
+showQuestion(); 
+resetTimer();
 }else endQuiz();
 }
 
 function startTimer(){
 clearInterval(timer);
 timeLeft=10;
+
 timer=setInterval(()=>{
 timeLeft--;
-document.getElementById("timer").innerText="Time Left: "+timeLeft;
+
+let timerEl = document.getElementById("timer");
+timerEl.innerText="Time Left: "+timeLeft;
+
+if(timeLeft <= 3){
+    timerEl.style.color="red";
+}else{
+    timerEl.style.color="black";
+}
+
 if(timeLeft<=0) nextQuestion();
 },1000);
 }
 
-function resetTimer(){ clearInterval(timer); startTimer(); }
+function resetTimer(){ 
+clearInterval(timer); 
+startTimer(); 
+}
 
 function endQuiz(){
 clearInterval(timer);
+
 document.getElementById("question").innerText="Quiz Finished!";
 document.getElementById("answers").innerHTML="";
 document.getElementById("timer").innerText="";

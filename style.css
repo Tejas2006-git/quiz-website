@@ -5,75 +5,101 @@
 }
 
 body {
-    font-family: 'Segoe UI', Arial;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
     text-align: center;
 }
 
 h1 {
     margin: 20px;
     color: white;
+    font-size: 32px;
 }
 
 #subjectPage, #quizPage {
     background: white;
-    width: 350px;
+    width: 380px;
     margin: 20px auto;
-    padding: 20px;
-    border-radius: 15px;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.2);
+    animation: fadeIn 0.5s ease-in-out;
 }
 
+button {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Subject buttons */
 #subjectPage button {
     width: 100%;
     margin: 6px 0;
-    padding: 10px;
-    background: green;
+    padding: 12px;
+    background: linear-gradient(45deg, #43e97b, #38f9d7);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+#subjectPage button:hover {
+    transform: scale(1.05);
 }
 
 /* Start Button */
 #startBtn {
-    display: block;
     margin: 15px auto;
-    width: 60%;
-    padding: 10px;
-    background: orange;
-    color: white;
+    width: 70%;
+    padding: 12px;
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-weight: bold;
 }
 
 /* Home Button */
 #homeBtn {
-    display: block;
     margin: 10px auto;
-    width: 60%;
-    padding: 10px;
-    background: purple;
-    color: white;
+    width: 70%;
+    padding: 12px;
+    background: linear-gradient(45deg, #a18cd1, #fbc2eb);
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 /* Options */
 .optionBtn {
     width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    background: blue;
+    padding: 12px;
+    margin: 6px 0;
+    background: linear-gradient(45deg, #667eea, #764ba2);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+}
+
+.optionBtn:hover {
+    transform: scale(1.03);
 }
 
 #timer {
-    color: red;
     font-weight: bold;
+    margin: 10px;
 }
 
 #score {
     margin-top: 10px;
     font-weight: bold;
+}
+
+#progress {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: gray;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
