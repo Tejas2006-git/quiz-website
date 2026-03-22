@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: Arial;
     background: linear-gradient(135deg, #4facfe, #00f2fe);
     text-align: center;
 }
@@ -13,93 +13,126 @@ body {
 h1 {
     margin: 20px;
     color: white;
-    font-size: 32px;
 }
 
+/* MAIN CARD */
 #subjectPage, #quizPage {
     background: white;
-    width: 380px;
+    width: 90%;
+    max-width: 400px;
     margin: 20px auto;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0px 10px 30px rgba(0,0,0,0.2);
-    animation: fadeIn 0.5s ease-in-out;
+    padding: 20px;
+    border-radius: 15px;
 }
 
+/* BUTTONS */
 button {
     cursor: pointer;
     transition: 0.3s;
 }
 
-/* Subject buttons */
+/* SUBJECT BUTTONS */
 #subjectPage button {
     width: 100%;
-    margin: 6px 0;
-    padding: 12px;
+    margin: 5px 0;
+    padding: 10px;
     background: linear-gradient(45deg, #43e97b, #38f9d7);
     color: white;
     border: none;
-    border-radius: 8px;
-    font-weight: bold;
+    border-radius: 5px;
 }
 
 #subjectPage button:hover {
     transform: scale(1.05);
 }
 
-/* Start Button */
+/* START BUTTON */
 #startBtn {
-    margin: 15px auto;
-    width: 70%;
-    padding: 12px;
     background: linear-gradient(45deg, #ff9a9e, #fad0c4);
-    border: none;
-    border-radius: 8px;
+    color: black;
     font-weight: bold;
-}
-
-/* Home Button */
-#homeBtn {
-    margin: 10px auto;
     width: 70%;
-    padding: 12px;
-    background: linear-gradient(45deg, #a18cd1, #fbc2eb);
+    padding: 10px;
+    margin: 10px auto;
+    display: block;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
 }
 
-/* Options */
+/* HOME BUTTON */
+#homeBtn {
+    background: linear-gradient(45deg, #a18cd1, #fbc2eb);
+    color: black;
+    font-weight: bold;
+    width: 70%;
+    padding: 10px;
+    margin: 10px auto;
+    display: block;
+    border: none;
+    border-radius: 5px;
+}
+
+/* OPTIONS */
 .optionBtn {
     width: 100%;
-    padding: 12px;
-    margin: 6px 0;
+    padding: 10px;
+    margin: 5px 0;
     background: linear-gradient(45deg, #667eea, #764ba2);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
 }
 
 .optionBtn:hover {
     transform: scale(1.03);
 }
 
+/* TEXT */
 #timer {
     font-weight: bold;
     margin: 10px;
 }
 
-#score {
-    margin-top: 10px;
-    font-weight: bold;
-}
-
 #progress {
-    margin-bottom: 10px;
-    font-size: 14px;
     color: gray;
 }
 
+/* 🎉 ANIMATION (THIS IS WHAT YOU WERE CONFUSED ABOUT) */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+/* RESULT BOX */
+.resultBox {
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    padding: 20px;
+    border-radius: 15px;
+    animation: fadeIn 1s;
+}
+
+.resultBox h2 {
+    color: #333;
+}
+
+/* RESTART BUTTON */
+.restartBtn {
+    margin-top: 15px;
+    padding: 10px;
+    width: 70%;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #43e97b, #38f9d7);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.restartBtn:hover {
+    transform: scale(1.05);
 }

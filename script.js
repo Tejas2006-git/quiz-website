@@ -1,7 +1,7 @@
 // ================= QUIZ DATA =================
 let quizData = {
 
-// ---------- HTML ----------
+// HTML
 HTML: [
 {question:"HTML stands for?",options:["Hyper Text Markup Language","High Text","Home Tool","None"],answer:0},
 {question:"<p> tag is used for?",options:["Paragraph","Heading","Image","Link"],answer:0},
@@ -15,7 +15,7 @@ HTML: [
 {question:"<title> is?",options:["Page title","Heading","Text","None"],answer:0}
 ],
 
-// ---------- CSS ----------
+// CSS
 CSS: [
 {question:"CSS stands for?",options:["Cascading Style Sheets","Color Style","None","All"],answer:0},
 {question:"CSS is used for?",options:["Styling","Logic","Data","None"],answer:0},
@@ -29,7 +29,7 @@ CSS: [
 {question:"CSS file?",options:[".css",".html",".js",".py"],answer:0}
 ],
 
-// ---------- JavaScript ----------
+// JavaScript
 JavaScript: [
 {question:"JS is?",options:["Language","OS","DB","None"],answer:0},
 {question:"JS file?",options:[".js",".html",".css",".py"],answer:0},
@@ -43,7 +43,7 @@ JavaScript: [
 {question:"JS is?",options:["Programming","Markup","Style","None"],answer:0}
 ],
 
-// ---------- APTITUDE ----------
+// Aptitude
 Aptitude: [
 {question:"2+2?",options:["3","4","5","6"],answer:1},
 {question:"5×3?",options:["10","15","20","25"],answer:1},
@@ -57,7 +57,7 @@ Aptitude: [
 {question:"Speed?",options:["Distance/Time","Time/Distance","Work","None"],answer:0}
 ],
 
-// ---------- DBMS ----------
+// DBMS
 DBMS: [
 {question:"DBMS stands for?",options:["Database Management System","Data Model","None","All"],answer:0},
 {question:"Primary key?",options:["Unique","Duplicate","Null","None"],answer:0},
@@ -71,7 +71,7 @@ DBMS: [
 {question:"Database?",options:["Collection","Program","OS","None"],answer:0}
 ],
 
-// ---------- PYTHON ----------
+// Python
 Python: [
 {question:"Python?",options:["Language","Animal","OS","None"],answer:0},
 {question:"File?",options:[".py",".js",".html",".css"],answer:0},
@@ -85,7 +85,7 @@ Python: [
 {question:"Supports?",options:["OOP","POP","Both","None"],answer:2}
 ],
 
-// ---------- JAVA ----------
+// Java
 Java: [
 {question:"Java?",options:["Language","Coffee","OS","None"],answer:0},
 {question:"File?",options:[".java",".js",".py",".html"],answer:0},
@@ -99,7 +99,7 @@ Java: [
 {question:"Java supports?",options:["OOP","POP","Both","None"],answer:0}
 ],
 
-// ---------- C ----------
+// C
 C: [
 {question:"C?",options:["Language","Compiler","OS","None"],answer:0},
 {question:"File?",options:[".c",".cpp",".java",".py"],answer:0},
@@ -113,7 +113,7 @@ C: [
 {question:"C is?",options:["Procedural","OOP","Both","None"],answer:0}
 ],
 
-// ---------- OS ----------
+// OS
 "Operating System": [
 {question:"OS?",options:["System","Language","App","None"],answer:0},
 {question:"Example?",options:["Windows","HTML","CSS","JS"],answer:0},
@@ -127,7 +127,7 @@ C: [
 {question:"Kernel?",options:["Core","App","File","None"],answer:0}
 ],
 
-// ---------- CN ----------
+// CN
 "Computer Networks": [
 {question:"Network?",options:["Connection","Data","OS","None"],answer:0},
 {question:"Internet?",options:["Network","Program","OS","None"],answer:0},
@@ -143,57 +143,45 @@ C: [
 
 };
 
-// ================= SHUFFLE =================
-function shuffleOptions(q){
-    let arr = q.options.map((opt, i)=>({
-        text: opt,
-        correct: i === q.answer
-    }));
-
-    arr.sort(()=>Math.random()-0.5);
-
-    q.options = arr.map(a=>a.text);
-    q.answer = arr.findIndex(a=>a.correct);
-}
-
 // ================= LOGIC =================
-let currentSubject="", currentQuestion=0, score=0, timer, timeLeft=10;
+let currentSubject="", questions=[], currentQuestion=0, score=0, timer, timeLeft=10, answered=false;
 
 function startQuiz(subject){
 currentSubject=subject;
 document.getElementById("subjectPage").style.display="none";
 document.getElementById("quizPage").style.display="block";
+
 document.getElementById("selectedSubject").innerText="Subject: "+subject;
+
+// RESET UI
+document.getElementById("question").innerText="";
+document.getElementById("answers").innerHTML="";
+document.getElementById("timer").innerText="";
+document.getElementById("progress").innerText="";
+document.getElementById("score").innerText="";
+
 document.getElementById("startBtn").style.display="block";
-document.getElementById("homeBtn").style.display="none";
+
+
 }
 
 function beginQuiz(){
-currentQuestion=0; 
-score=0;
-
-// Reset shuffle
-quizData[currentSubject].forEach(q => delete q.shuffled);
+questions=JSON.parse(JSON.stringify(quizData[currentSubject]));
+currentQuestion=0; score=0;
 
 document.getElementById("startBtn").style.display="none";
-document.getElementById("score").innerText="Score: 0";
 
-showQuestion(); 
-startTimer();
+
+showQuestion(); startTimer();
 }
 
 function showQuestion(){
-let q = quizData[currentSubject][currentQuestion];
-
-if(!q.shuffled){
-    shuffleOptions(q);
-    q.shuffled = true;
-}
+answered=false;
+let q=questions[currentQuestion];
+shuffle(q);
 
 document.getElementById("question").innerText=q.question;
-
-document.getElementById("progress").innerText =
-`Question ${currentQuestion+1} / ${quizData[currentSubject].length}`;
+document.getElementById("progress").innerText=`Question ${currentQuestion+1}/${questions.length}`;
 
 let html="";
 q.options.forEach((opt,i)=>{
@@ -202,28 +190,39 @@ html+=`<button class="optionBtn" onclick="checkAnswer(${i})">${opt}</button>`;
 document.getElementById("answers").innerHTML=html;
 }
 
-function checkAnswer(selected){
-let correct=quizData[currentSubject][currentQuestion].answer;
-let buttons=document.querySelectorAll(".optionBtn");
+function shuffle(q){
+let arr=q.options.map((opt,i)=>({text:opt,correct:i===q.answer}));
+arr.sort(()=>Math.random()-0.5);
+q.options=arr.map(a=>a.text);
+q.answer=arr.findIndex(a=>a.correct);
+}
 
-buttons.forEach((b,i)=>{
+function checkAnswer(selected){
+if(answered) return;
+answered=true;
+clearInterval(timer);
+
+let correct=questions[currentQuestion].answer;
+let btns=document.querySelectorAll(".optionBtn");
+
+btns.forEach((b,i)=>{
 b.disabled=true;
 b.style.backgroundColor=(i===correct)?"green":"red";
 });
 
 if(selected===correct){
 score++;
-document.getElementById("score").innerText="Score: "+score;
+
 }
 
-setTimeout(nextQuestion,1000);
+setTimeout(nextQuestion,500);
 }
 
 function nextQuestion(){
+clearInterval(timer);
 currentQuestion++;
-if(currentQuestion<quizData[currentSubject].length){
-showQuestion(); 
-resetTimer();
+if(currentQuestion<questions.length){
+showQuestion(); startTimer();
 }else endQuiz();
 }
 
@@ -233,40 +232,34 @@ timeLeft=10;
 
 timer=setInterval(()=>{
 timeLeft--;
+let t=document.getElementById("timer");
+t.innerText="Time Left: "+timeLeft;
 
-let timerEl = document.getElementById("timer");
-timerEl.innerText="Time Left: "+timeLeft;
+if(timeLeft<=3) t.style.color="red";
+else t.style.color="black";
 
-if(timeLeft <= 3){
-    timerEl.style.color="red";
-}else{
-    timerEl.style.color="black";
+if(timeLeft<=0){
+answered=true;
+nextQuestion();
 }
-
-if(timeLeft<=0) nextQuestion();
 },1000);
 }
 
-function resetTimer(){ 
-clearInterval(timer); 
-startTimer(); 
-}
-
+// 🎉 END QUIZ WITH ANIMATION
 function endQuiz(){
 clearInterval(timer);
 
-document.getElementById("question").innerText="Quiz Finished!";
-document.getElementById("answers").innerHTML="";
-document.getElementById("timer").innerText="";
-document.getElementById("score").innerText="Final Score: "+score;
+let percentage = Math.floor((score / questions.length) * 100);
 
-document.getElementById("startBtn").style.display="block";
-document.getElementById("startBtn").innerText="Restart Quiz";
-document.getElementById("homeBtn").style.display="block";
-}
+let message = percentage >= 70 ? "🎉 Congratulations!" : "😅 Keep Practicing!";
 
-function goHome(){
-document.getElementById("quizPage").style.display="none";
-document.getElementById("subjectPage").style.display="block";
-document.getElementById("startBtn").innerText="Start Quiz";
+document.getElementById("quizPage").innerHTML = `
+<div class="resultBox">
+    <h2>${message}</h2>
+    <h3>Final Score: ${score}/${questions.length}</h3>
+    <p>${percentage}% Score</p>
+
+    <button onclick="location.reload()" class="restartBtn">Restart</button>
+</div>
+`;
 }
