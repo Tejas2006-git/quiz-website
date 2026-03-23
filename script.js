@@ -1,7 +1,95 @@
+// ================= AUTH SYSTEM =================
+let isLogin = true;
+
+function toggleAuth(){
+    isLogin = !isLogin;
+
+    document.getElementById("authTitle").innerText = isLogin ? "Login" : "Sign Up";
+    document.querySelector("#authPage button").innerText = isLogin ? "Login" : "Sign Up";
+    document.querySelector("#authPage p").innerText = isLogin 
+    ? "Don't have account? Sign Up" 
+    : "Already have account? Login";
+}
+
+// ✅ FULL CORRECTED AUTH FUNCTION
+function handleAuth(){
+
+    let name = document.getElementById("authName").value.trim();
+    let pass = document.getElementById("authPass").value.trim();
+
+    // Empty check
+    if(name === "" || pass === ""){
+        alert("Please fill all fields");
+        return;
+    }
+
+    // Password rule
+    if(pass.length < 4){
+        alert("Password must be at least 4 characters");
+        return;
+    }
+
+    // ================= LOGIN =================
+    if(isLogin){
+
+        let savedPass = localStorage.getItem(name);
+
+        if(savedPass === null){
+            alert("User does not exist. Please Sign Up");
+            return;
+        }
+
+        if(savedPass === pass){
+            localStorage.setItem("quizUser", name);
+            startApp();
+        }else{
+            alert("Incorrect password");
+        }
+
+    }
+
+    // ================= SIGN UP =================
+    else{
+
+        // ✅ Prevent duplicate user
+        if(localStorage.getItem(name)){
+            alert("User already exists");
+            return;
+        }
+
+        // Save user
+        localStorage.setItem(name, pass);
+        alert("Account created successfully!");
+
+        toggleAuth(); // switch to login
+    }
+
+    // Clear inputs
+    document.getElementById("authName").value = "";
+    document.getElementById("authPass").value = "";
+}
+
+// START APP
+function startApp(){
+    document.getElementById("authPage").style.display="none";
+    document.getElementById("subjectPage").style.display="block";
+}
+
+// AUTO LOGIN
+window.onload = function(){
+    let user = localStorage.getItem("quizUser");
+    if(user){
+        startApp();
+    }
+};
+
+// LOGOUT
+
+
 // ================= QUIZ DATA =================
 let quizData = {
 
-// HTML
+// ---------- HTML ----------
 HTML: [
 {question:"HTML stands for?",options:["Hyper Text Markup Language","High Text","Home Tool","None"],answer:0},
 {question:"<p> tag is used for?",options:["Paragraph","Heading","Image","Link"],answer:0},
@@ -15,7 +103,7 @@ HTML: [
 {question:"<title> is?",options:["Page title","Heading","Text","None"],answer:0}
 ],
 
-// CSS
+// ---------- CSS ----------
 CSS: [
 {question:"CSS stands for?",options:["Cascading Style Sheets","Color Style","None","All"],answer:0},
 {question:"CSS is used for?",options:["Styling","Logic","Data","None"],answer:0},
@@ -29,7 +117,7 @@ CSS: [
 {question:"CSS file?",options:[".css",".html",".js",".py"],answer:0}
 ],
 
-// JavaScript
+// ---------- JavaScript ----------
 JavaScript: [
 {question:"JS is?",options:["Language","OS","DB","None"],answer:0},
 {question:"JS file?",options:[".js",".html",".css",".py"],answer:0},
@@ -43,7 +131,7 @@ JavaScript: [
 {question:"JS is?",options:["Programming","Markup","Style","None"],answer:0}
 ],
 
-// Aptitude
+// ---------- APTITUDE ----------
 Aptitude: [
 {question:"2+2?",options:["3","4","5","6"],answer:1},
 {question:"5×3?",options:["10","15","20","25"],answer:1},
@@ -57,7 +145,7 @@ Aptitude: [
 {question:"Speed?",options:["Distance/Time","Time/Distance","Work","None"],answer:0}
 ],
 
-// DBMS
+// ---------- DBMS ----------
 DBMS: [
 {question:"DBMS stands for?",options:["Database Management System","Data Model","None","All"],answer:0},
 {question:"Primary key?",options:["Unique","Duplicate","Null","None"],answer:0},
@@ -71,7 +159,7 @@ DBMS: [
 {question:"Database?",options:["Collection","Program","OS","None"],answer:0}
 ],
 
-// Python
+// ---------- PYTHON ----------
 Python: [
 {question:"Python?",options:["Language","Animal","OS","None"],answer:0},
 {question:"File?",options:[".py",".js",".html",".css"],answer:0},
@@ -85,7 +173,7 @@ Python: [
 {question:"Supports?",options:["OOP","POP","Both","None"],answer:2}
 ],
 
-// Java
+// ---------- JAVA ----------
 Java: [
 {question:"Java?",options:["Language","Coffee","OS","None"],answer:0},
 {question:"File?",options:[".java",".js",".py",".html"],answer:0},
@@ -99,7 +187,7 @@ Java: [
 {question:"Java supports?",options:["OOP","POP","Both","None"],answer:0}
 ],
 
-// C
+// ---------- C ----------
 C: [
 {question:"C?",options:["Language","Compiler","OS","None"],answer:0},
 {question:"File?",options:[".c",".cpp",".java",".py"],answer:0},
@@ -113,7 +201,7 @@ C: [
 {question:"C is?",options:["Procedural","OOP","Both","None"],answer:0}
 ],
 
-// OS
+// ---------- OS ----------
 "Operating System": [
 {question:"OS?",options:["System","Language","App","None"],answer:0},
 {question:"Example?",options:["Windows","HTML","CSS","JS"],answer:0},
@@ -127,7 +215,7 @@ C: [
 {question:"Kernel?",options:["Core","App","File","None"],answer:0}
 ],
 
-// CN
+// ---------- CN ----------
 "Computer Networks": [
 {question:"Network?",options:["Connection","Data","OS","None"],answer:0},
 {question:"Internet?",options:["Network","Program","OS","None"],answer:0},
@@ -143,123 +231,167 @@ C: [
 
 };
 
-// ================= LOGIC =================
-let currentSubject="", questions=[], currentQuestion=0, score=0, timer, timeLeft=10, answered=false;
+// ================= QUIZ LOGIC =================
+let currentSubject="", questions=[], currentQuestion=0, score=0, timer, timeLeft=10;
 
 function startQuiz(subject){
-currentSubject=subject;
-document.getElementById("subjectPage").style.display="none";
-document.getElementById("quizPage").style.display="block";
+    currentSubject=subject;
 
-document.getElementById("selectedSubject").innerText="Subject: "+subject;
+    document.getElementById("subjectPage").style.display="none";
+    document.getElementById("quizPage").style.display="block";
 
-// RESET UI
-document.getElementById("question").innerText="";
-document.getElementById("answers").innerHTML="";
-document.getElementById("timer").innerText="";
-document.getElementById("progress").innerText="";
-document.getElementById("score").innerText="";
+    let user = localStorage.getItem("quizUser");
+    document.getElementById("welcomeUser").innerText="Welcome, "+user;
 
-document.getElementById("startBtn").style.display="block";
-
-
+    document.getElementById("selectedSubject").innerText="Subject: "+subject;
 }
 
 function beginQuiz(){
-questions=JSON.parse(JSON.stringify(quizData[currentSubject]));
-currentQuestion=0; score=0;
+    questions = JSON.parse(JSON.stringify(quizData[currentSubject]));
+    currentQuestion=0; score=0;
 
-document.getElementById("startBtn").style.display="none";
+    document.getElementById("startBtn").style.display="none";
 
-
-showQuestion(); startTimer();
+    showQuestion();
+    startTimer();
 }
 
 function showQuestion(){
-answered=false;
-let q=questions[currentQuestion];
-shuffle(q);
+    let q=questions[currentQuestion];
+    shuffle(q);
 
-document.getElementById("question").innerText=q.question;
-document.getElementById("progress").innerText=`Question ${currentQuestion+1}/${questions.length}`;
+    document.getElementById("question").innerText=q.question;
 
-let html="";
-q.options.forEach((opt,i)=>{
-html+=`<button class="optionBtn" onclick="checkAnswer(${i})">${opt}</button>`;
-});
-document.getElementById("answers").innerHTML=html;
+    let html="";
+    q.options.forEach((opt,i)=>{
+        html+=`<button class="optionBtn" onclick="checkAnswer(${i})">${opt}</button>`;
+    });
+    document.getElementById("answers").innerHTML=html;
 }
 
 function shuffle(q){
-let arr=q.options.map((opt,i)=>({text:opt,correct:i===q.answer}));
-arr.sort(()=>Math.random()-0.5);
-q.options=arr.map(a=>a.text);
-q.answer=arr.findIndex(a=>a.correct);
+    let arr=q.options.map((opt,i)=>({text:opt,correct:i===q.answer}));
+    arr.sort(()=>Math.random()-0.5);
+    q.options=arr.map(a=>a.text);
+    q.answer=arr.findIndex(a=>a.correct);
 }
 
 function checkAnswer(selected){
-if(answered) return;
-answered=true;
-clearInterval(timer);
+    clearInterval(timer);
 
-let correct=questions[currentQuestion].answer;
-let btns=document.querySelectorAll(".optionBtn");
+    let correct=questions[currentQuestion].answer;
+    let btns=document.querySelectorAll(".optionBtn");
 
-btns.forEach((b,i)=>{
-b.disabled=true;
-b.style.backgroundColor=(i===correct)?"green":"red";
-});
+    btns.forEach((b,i)=>{
+        b.disabled=true;
+        b.style.backgroundColor=(i===correct)?"green":"red";
+    });
 
-if(selected===correct){
-score++;
+    if(selected===correct) score++;
 
-}
-
-setTimeout(nextQuestion,500);
+    setTimeout(nextQuestion,500);
 }
 
 function nextQuestion(){
-clearInterval(timer);
-currentQuestion++;
-if(currentQuestion<questions.length){
-showQuestion(); startTimer();
-}else endQuiz();
+    currentQuestion++;
+    if(currentQuestion<questions.length){
+        showQuestion();
+        startTimer();
+    }else endQuiz();
 }
 
 function startTimer(){
-clearInterval(timer);
-timeLeft=10;
+    timeLeft=10;
 
-timer=setInterval(()=>{
-timeLeft--;
-let t=document.getElementById("timer");
-t.innerText="Time Left: "+timeLeft;
+    timer=setInterval(()=>{
+        timeLeft--;
+        document.getElementById("timer").innerText="Time Left: "+timeLeft;
 
-if(timeLeft<=3) t.style.color="red";
-else t.style.color="black";
-
-if(timeLeft<=0){
-answered=true;
-nextQuestion();
+        if(timeLeft<=0){
+            clearInterval(timer);
+            nextQuestion();
+        }
+    },1000);
 }
-},1000);
+function saveScore(username, score, total){
+    let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+    leaderboard.push({
+        name: username,
+        score: score,
+        total: total,
+        percentage: Math.floor((score/total)*100)
+    });
+
+    // Sort highest score first
+    leaderboard.sort((a,b)=>b.percentage - a.percentage);
+
+    // Keep only top 5
+    leaderboard = leaderboard.slice(0,5);
+
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
 }
 
-// 🎉 END QUIZ WITH ANIMATION
 function endQuiz(){
-clearInterval(timer);
 
-let percentage = Math.floor((score / questions.length) * 100);
+    let user = localStorage.getItem("quizUser");
+    let percentage = Math.floor((score/questions.length)*100);
 
-let message = percentage >= 70 ? "🎉 Congratulations!" : "😅 Keep Practicing!";
+    let message="";
+    if(percentage >= 80) message="🔥 Excellent!";
+    else if(percentage >= 60) message="🎉 Good Job!";
+    else message="💪 Keep Practicing!";
 
-document.getElementById("quizPage").innerHTML = `
-<div class="resultBox">
-    <h2>${message}</h2>
-    <h3>Final Score: ${score}/${questions.length}</h3>
-    <p>${percentage}% Score</p>
+    document.getElementById("quizPage").innerHTML=`
+    <div class="resultBox">
 
-    <button onclick="location.reload()" class="restartBtn">Restart</button>
-</div>
-`;
+        <h2>${message}</h2>
+
+        <h3>👤 ${user}</h3>
+
+        <h3>Score: ${score}/${questions.length}</h3>
+
+        <p>📊 ${percentage}%</p>
+
+        <button onclick="restartQuiz()" class="restartBtn">🔄 Play Again</button>
+
+        <!-- ✅ ADD THIS -->
+        <button onclick="goHome()" class="homeBtn">🏠 Home</button>
+
+    </div>
+    `;
+}
+function restartQuiz(){
+    document.getElementById("quizPage").innerHTML = `
+        <h2 id="selectedSubject"></h2>
+        <button id="startBtn" onclick="beginQuiz()">Start Quiz</button>
+        <p id="timer"></p>
+        <h2 id="question"></h2>
+        <div id="answers"></div>
+    `;
+
+    startQuiz(currentSubject);
+}
+window.onload = function(){
+
+    let user = localStorage.getItem("quizUser");
+
+    if(user){
+        startApp(); // go to subject page
+    }else{
+        document.getElementById("authPage").style.display="block";
+        document.getElementById("subjectPage").style.display="none";
+    }
+};
+function resetLogin(){
+    localStorage.removeItem("quizUser");
+    location.reload();
+}
+document.addEventListener("keydown", function(e){
+    if(e.ctrlKey && e.key === "r"){
+        resetLogin();
+    }
+});
+function goHome(){
+    location.reload();
 }

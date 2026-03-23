@@ -10,9 +10,23 @@
 
 <h1>Quiz Website</h1>
 
+<!-- LOGIN / SIGNUP -->
+<div id="authPage">
+    <h2 id="authTitle">Login</h2>
+
+    <input type="text" id="authName" placeholder="Enter your name">
+    <input type="password" id="authPass" placeholder="Enter password">
+
+    <button onclick="handleAuth()">Login</button>
+
+    <p onclick="toggleAuth()" style="cursor:pointer; color:blue;">
+        Don't have account? Sign Up
+    </p>
+</div>
+
 <!-- SUBJECT PAGE -->
-<div id="subjectPage">
-    <h2>Select a Subject</h2>
+<div id="subjectPage" style="display:none;">
+    <h2>Select Subject</h2>
 
     <button onclick="startQuiz('HTML')">HTML</button>
     <button onclick="startQuiz('CSS')">CSS</button>
@@ -24,24 +38,20 @@
     <button onclick="startQuiz('C')">C Programming</button>
     <button onclick="startQuiz('Operating System')">Operating System</button>
     <button onclick="startQuiz('Computer Networks')">Computer Networks</button>
+    
 </div>
 
 <!-- QUIZ PAGE -->
-<div id="quizPage" style="display:none">
-
+<div id="quizPage" style="display:none;">
+    <h3 id="welcomeUser"></h3>
     <h2 id="selectedSubject"></h2>
 
     <button id="startBtn" onclick="beginQuiz()">Start Quiz</button>
-    <button id="homeBtn" onclick="goHome()"style="display:none;">Go Home</button>
 
-    <p id="progress"></p>
     <p id="timer"></p>
 
     <h2 id="question"></h2>
     <div id="answers"></div>
-
-    <h3 id="score"></h3>
-
 </div>
 
 <script src="script.js"></script>
